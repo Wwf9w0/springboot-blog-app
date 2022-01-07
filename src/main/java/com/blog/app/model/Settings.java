@@ -22,3 +22,4 @@ public class Settings extends BasedEntity{
     @Column(name = "_value")
     private Serializable value;
 }
+
