@@ -1,6 +1,7 @@
 package com.blog.app.model;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Table(name = "tag")
 @Data
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "tagCache")
+@RequiredArgsConstructor
 public class Tag extends BasedEntity{
 
     @Column(unique = true)
