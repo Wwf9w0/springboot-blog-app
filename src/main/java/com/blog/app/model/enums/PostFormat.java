@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum PostFormat {
-    HTLML("Html"), MARKDOWN("Markdown");
-
+    HTML("Html"), MARKDOWN("Markdown");
 
     private String displayName;
 
