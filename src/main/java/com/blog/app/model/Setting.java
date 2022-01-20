@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Entity
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "settingCache")
 @Table(name = "settings")
-public class Settings extends BasedEntity{
+public class Setting extends BasedEntity{
 
     @Column(name = "_key", unique = true, nullable = false)
     private String key;
