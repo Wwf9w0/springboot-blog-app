@@ -1,6 +1,9 @@
 package com.blog.app.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -26,4 +29,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     private Collection<Post> posts = new ArrayList<>();
+
+    public User(String defaultAdminEmail, String defaultAdminPassword, String roleAdmin) {
+    }
 }
