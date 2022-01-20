@@ -57,7 +57,6 @@ public class UserService {
         return new SimpleGrantedAuthority(user.getRole());
     }
 
-
     public void signIn(User user) {
         SecurityContextHolder.getContext().setAuthentication(authenticate(user));
     }
