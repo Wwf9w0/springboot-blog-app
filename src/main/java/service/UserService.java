@@ -5,8 +5,12 @@ import com.blog.app.model.User;
 import com.blog.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,5 +57,37 @@ public class UserService {
         return new SimpleGrantedAuthority(user.getRole());
     }
 
+
+    public void signIn(User user) {
+        SecurityContextHolder.getContext().setAuthentication(authenticate(user));
+    }
+
+    private Authentication authenticate(User user) {
+        return new UsernamePasswordAuthenticationToken(createSpringUser(user), null, Collections.singleton(createAuthority(user)));
+    }
+
+    public User currentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!Objects.nonNull(auth) || auth instanceof AnonymousAuthenticationToken) {
+            return null;
+        }
+        String email = ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername();
+        return userRepository.findByEmail(email);
+    }
+
+    public boolean changePassword(User user, String password, String newPassword) {
+        if (!Objects.nonNull(password) || !Objects.nonNull(newPassword) || password.isEmpty()
+                || newPassword.isEmpty()) {
+            return false;
+        }
+        boolean match = passwordEncoder.matches(password, user.getPassword());
+        if (!match) {
+            return false;
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        log.info("User @{} changed password.", user.getEmail());
+        return true;
+    }
 }
 
