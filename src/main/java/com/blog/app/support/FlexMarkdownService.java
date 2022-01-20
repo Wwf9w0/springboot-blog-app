@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
-@Service("flexmark")
+@Service
 @Slf4j
 public class FlexMarkdownService {
     public String renderToHtml(String content){

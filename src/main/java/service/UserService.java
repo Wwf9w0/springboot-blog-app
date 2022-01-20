@@ -5,14 +5,21 @@ import com.blog.app.model.User;
 import com.blog.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
+@Transactional
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -22,13 +29,28 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getSuperUser(){
+    public User getSuperUser() {
         User user = userRepository.findByEmail(Constants.DEFAULT_ADMIN_EMAIL);
-        if (!Objects.nonNull(user)){
+        if (!Objects.nonNull(user)) {
             user = createUser(new User(Constants.DEFAULT_ADMIN_EMAIL, Constants.DEFAULT_ADMIN_PASSWORD, User.ROLE_ADMIN));
         }
         return user;
+    }
 
+    public UserDetails loadUserByUserName(String userName) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(userName);
+        if (!Objects.nonNull(user)) {
+            throw new UsernameNotFoundException("User Not Found!");
+        }
+        return createSpringUser(user);
+    }
+
+    private org.springframework.security.core.userdetails.User createSpringUser(User user) {
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singleton(createAuthority(user)));
+    }
+
+    private GrantedAuthority createAuthority(User user) {
+        return new SimpleGrantedAuthority(user.getRole());
     }
 
 }
