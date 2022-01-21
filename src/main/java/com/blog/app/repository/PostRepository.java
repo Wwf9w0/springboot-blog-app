@@ -17,7 +17,7 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findByPermaLinkAndPosStatus(String permaLink, PostStatus postStatus);
     Page<Post> findAllByPostType(PostType postType, Pageable pageable);
-    Page<Post> findAllByPostTypeAndPostStatus(PostType postType, PostStatus postStatus);
+    Page<Post> findAllByPostTypeAndPostStatus(PostType postType, PostStatus postStatus, Pageable page);
 
     @Query("SELECT p FROM Post p INNER JOIN p.tags t WHERE t.name = :tag")
     Page<Post> findByTag(@Param("tag") String tag, Pageable pageable);
