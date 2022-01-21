@@ -2,6 +2,7 @@ package service;
 
 import com.blog.app.error.NotFoundException;
 import com.blog.app.model.Post;
+import com.blog.app.model.enums.PostStatus;
 import com.blog.app.repository.PostRepository;
 import com.blog.app.support.FlexMarkdownService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,23 @@ public class PostService {
         Optional<Post> post = postRepository.findById(postId);
         if (!Objects.nonNull(post)){
             throw new NotFoundException("Post with id" + postId + "is not found.");
+        }
+        return post;
+    }
+
+    public Optional<Post> getPublishedPostByPermaLing(String permaLink){
+        log.debug("Get post with permalink " + permaLink);
+
+        Optional<Post> post = postRepository.findByPermaLinkAndPosStatus(permaLink, PostStatus.PUBLISHED);
+        if (!Objects.nonNull(post)){
+            try{
+                post = postRepository.findById(Long.valueOf(permaLink));
+            }catch (NumberFormatException e){
+                post = null;
+            }
+        }
+        if (!Objects.nonNull(post)){
+            throw new NotFoundException("Post with permalink " + permaLink + "is not found.");
         }
         return post;
     }
