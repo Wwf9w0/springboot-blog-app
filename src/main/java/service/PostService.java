@@ -2,6 +2,7 @@ package service;
 
 import com.blog.app.error.NotFoundException;
 import com.blog.app.model.Post;
+import com.blog.app.model.enums.PostFormat;
 import com.blog.app.model.enums.PostStatus;
 import com.blog.app.repository.PostRepository;
 import com.blog.app.support.FlexMarkdownService;
@@ -50,5 +51,22 @@ public class PostService {
         }
         return post;
     }
+
+    public Post createPost(Post post){
+        if (post.getPostFormat() == PostFormat.MARKDOWN){
+            post.setRenderedContent(flexMarkdownService.renderToHtml(post.getContent()));
+            post.setPostFormat(PostFormat.valueOf(flexMarkdownService.renderToHtml(post.getSummary())));
+        }
+        return postRepository.save(post);
+    }
+
+    public Post updatePost(Post post){
+        if (post.getPostFormat() == PostFormat.MARKDOWN){
+            post.setRenderedContent(flexMarkdownService.renderToHtml(post.getContent()));
+            post.setPostFormat(PostFormat.valueOf(flexMarkdownService.renderToHtml(post.getSummary())));
+        }
+        return postRepository.save(post);
+    }
+
 
 }
