@@ -1,7 +1,9 @@
 package service;
 
+import com.blog.app.config.Constants;
 import com.blog.app.error.NotFoundException;
 import com.blog.app.model.Post;
+import com.blog.app.model.Tag;
 import com.blog.app.model.enums.PostFormat;
 import com.blog.app.model.enums.PostStatus;
 import com.blog.app.model.enums.PostType;
@@ -9,15 +11,16 @@ import com.blog.app.repository.PostRepository;
 import com.blog.app.support.FlexMarkdownService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.bcel.Const;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -89,6 +92,14 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
+    public List<Tag> getPostTags(Post post){
+        log.debug("Get tags of post {}", post.getId());
+
+        List<Tag> tags = new ArrayList<>();
+        postRepository.findById(post.getId()).get().getTags().forEach(tags::add);
+        return tags;
+    }
+
     private Post extractPostMeta(Post post) {
         Post archivePost = new Post();
         archivePost.setId(post.getId());
@@ -96,6 +107,26 @@ public class PostService {
         archivePost.setPermalink(post.getPermalink());
         archivePost.setCreatAt(post.getCreatAt());
         return archivePost;
+    }
+
+    public Page<Post> getAllPublishedPostsByPage(int page, int pageSize){
+        log.debug("Get posts by page " + page);
+
+        return postRepository.findAllByPostTypeAndPostStatus(
+                PostType.POST,
+                PostStatus.PUBLISHED,
+                PageRequest.of(page, pageSize, Sort.Direction.DESC, "createdAt"));
+    }
+
+    public Post createAboutPage(){
+        log.debug("Create default about page");
+        Post post = new Post();
+        post.setTitle(Constants.ABOUT_PAGE_PERMALINK);
+        post.setContent(Constants.ABOUT_PAGE_PERMALINK.toLowerCase(Locale.ROOT));
+        post.setPermalink(Constants.ABOUT_PAGE_PERMALINK);
+        post.setUser(userService.getSuperUser());
+        post.setPostFormat(PostFormat.MARKDOWN);
+        return createPost(post);
     }
 
 }
