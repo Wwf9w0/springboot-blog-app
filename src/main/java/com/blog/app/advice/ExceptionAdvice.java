@@ -1,5 +1,6 @@
-package com.blog.app.error;
+package com.blog.app.advice;
 
+import com.blog.app.advice.exception.UserNotFoundException;
 import com.blog.app.model.Error;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;

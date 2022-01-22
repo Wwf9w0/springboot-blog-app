@@ -1,5 +1,6 @@
-package com.blog.app.error;
+package com.blog.app.advice.exception;
 
+import com.blog.app.advice.constants.ErrorCodes;
 import lombok.Getter;
 
 @Getter

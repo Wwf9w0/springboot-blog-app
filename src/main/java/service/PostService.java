@@ -1,7 +1,7 @@
 package service;
 
-import com.blog.app.config.Constants;
-import com.blog.app.error.UserNotFoundException;
+import com.blog.app.advice.constants.EnviromentConstants;
+import com.blog.app.advice.exception.UserNotFoundException;
 import com.blog.app.model.Post;
 import com.blog.app.model.Tag;
 import com.blog.app.model.enums.PostFormat;
@@ -119,9 +119,9 @@ public class PostService {
     public Post createAboutPage() {
         log.debug("Create default about page");
         Post post = new Post();
-        post.setTitle(Constants.ABOUT_PAGE_PERMALINK);
-        post.setContent(Constants.ABOUT_PAGE_PERMALINK.toLowerCase());
-        post.setPermalink(Constants.ABOUT_PAGE_PERMALINK);
+        post.setTitle(EnviromentConstants.ABOUT_PAGE_PERMALINK);
+        post.setContent(EnviromentConstants.ABOUT_PAGE_PERMALINK.toLowerCase());
+        post.setPermalink(EnviromentConstants.ABOUT_PAGE_PERMALINK);
         post.setUser(userService.getSuperUser());
         post.setPostFormat(PostFormat.MARKDOWN);
         return createPost(post);

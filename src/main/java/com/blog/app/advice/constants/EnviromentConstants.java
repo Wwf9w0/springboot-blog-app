@@ -1,6 +1,6 @@
-package com.blog.app.config;
+package com.blog.app.advice.constants;
 
-public final class Constants {
+public final class EnviromentConstants {
 
     public static final String ENV_PRODUCTION = "prod";
 

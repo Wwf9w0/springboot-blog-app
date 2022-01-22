@@ -1,4 +1,4 @@
-package com.blog.app.error;
+package com.blog.app.advice.constants;
 
 public class ErrorCodes {
 

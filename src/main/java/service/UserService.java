@@ -1,6 +1,6 @@
 package service;
 
-import com.blog.app.config.Constants;
+import com.blog.app.advice.constants.EnviromentConstants;
 import com.blog.app.model.User;
 import com.blog.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +34,9 @@ public class UserService {
     }
 
     public User getSuperUser() {
-        User user = userRepository.findByEmail(Constants.DEFAULT_ADMIN_EMAIL);
+        User user = userRepository.findByEmail(EnviromentConstants.DEFAULT_ADMIN_EMAIL);
         if (!Objects.nonNull(user)) {
-            user = createUser(new User(Constants.DEFAULT_ADMIN_EMAIL, Constants.DEFAULT_ADMIN_PASSWORD, User.ROLE_ADMIN));
+            user = createUser(new User(EnviromentConstants.DEFAULT_ADMIN_EMAIL, EnviromentConstants.DEFAULT_ADMIN_PASSWORD, User.ROLE_ADMIN));
         }
         return user;
     }
