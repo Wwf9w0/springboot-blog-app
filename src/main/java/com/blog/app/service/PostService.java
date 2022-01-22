@@ -1,4 +1,4 @@
-package service;
+package com.blog.app.service;
 
 import com.blog.app.advice.constants.EnviromentConstants;
 import com.blog.app.advice.exception.UserNotFoundException;

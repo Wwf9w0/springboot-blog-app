@@ -1,4 +1,4 @@
-package service;
+package com.blog.app.service;
 
 import com.blog.app.model.Tag;
 import com.blog.app.repository.TagRepository;
