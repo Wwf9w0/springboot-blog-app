@@ -118,11 +118,26 @@ public class PostService {
         log.debug("Create default about page");
         Post post = new Post();
         post.setTitle(Constants.ABOUT_PAGE_PERMALINK);
-        post.setContent(Constants.ABOUT_PAGE_PERMALINK.toLowerCase(Locale.ROOT));
+        post.setContent(Constants.ABOUT_PAGE_PERMALINK.toLowerCase());
         post.setPermalink(Constants.ABOUT_PAGE_PERMALINK);
         post.setUser(userService.getSuperUser());
         post.setPostFormat(PostFormat.MARKDOWN);
         return createPost(post);
     }
+
+    public Set<Tag> parseTagNames(String tagNames){
+        Set<Tag> tags = new HashSet<>();
+
+        if (Objects.nonNull(tagNames) && !tags.isEmpty()){
+            tagNames = tagNames.toLowerCase();
+            String[] names = tagNames.split("\\s*,\\s*");
+            for (String name : names){
+                tags.add(tagService.findOrCreateByName(name));
+            }
+        }
+        return tags;
+    }
+
+
 
 }

@@ -50,7 +50,8 @@ public class UserService {
     }
 
     private org.springframework.security.core.userdetails.User createSpringUser(User user) {
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Collections.singleton(createAuthority(user)));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                Collections.singleton(createAuthority(user)));
     }
 
     private GrantedAuthority createAuthority(User user) {
@@ -62,7 +63,8 @@ public class UserService {
     }
 
     private Authentication authenticate(User user) {
-        return new UsernamePasswordAuthenticationToken(createSpringUser(user), null, Collections.singleton(createAuthority(user)));
+        return new UsernamePasswordAuthenticationToken(createSpringUser(user),
+                null, Collections.singleton(createAuthority(user)));
     }
 
     public User currentUser() {
