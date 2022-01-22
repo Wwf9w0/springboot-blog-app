@@ -1,7 +1,7 @@
 package service;
 
 import com.blog.app.config.Constants;
-import com.blog.app.error.NotFoundException;
+import com.blog.app.error.UserNotFoundException;
 import com.blog.app.model.Post;
 import com.blog.app.model.Tag;
 import com.blog.app.model.enums.PostFormat;
@@ -39,7 +39,7 @@ public class PostService {
 
         Optional<Post> post = postRepository.findById(postId);
         if (!Objects.nonNull(post)) {
-            throw new NotFoundException("Post with id" + postId + "is not found.");
+            throw new UserNotFoundException();
         }
         return post;
     }
@@ -56,7 +56,7 @@ public class PostService {
             }
         }
         if (!Objects.nonNull(post)) {
-            throw new NotFoundException("Post with permalink " + permaLink + "is not found.");
+            throw new UserNotFoundException();
         }
         return post;
     }
