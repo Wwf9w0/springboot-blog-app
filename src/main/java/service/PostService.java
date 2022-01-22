@@ -11,6 +11,7 @@ import com.blog.app.repository.PostRepository;
 import com.blog.app.support.FlexMarkdownService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -148,5 +149,12 @@ public class PostService {
 
         return names.toString();
     }
+
+    @Cacheable(cacheNames = "post", key = "#tagName", unless = "#result == null ")
+    public Page<Post> findPostsByTag(String tagName, int page, int pageSize){
+        return postRepository.findByTag(tagName,
+                PageRequest.of(page, pageSize, Sort.Direction.DESC, "createdat"));
+    }
+
 
 }
