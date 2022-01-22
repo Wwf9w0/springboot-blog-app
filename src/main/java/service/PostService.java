@@ -11,12 +11,10 @@ import com.blog.app.repository.PostRepository;
 import com.blog.app.support.FlexMarkdownService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,13 +84,13 @@ public class PostService {
 
         Pageable page = PageRequest.of(0, Integer.MAX_VALUE, Sort.Direction.DESC, "createdAt");
         return postRepository.findAllByPostTypeAndPostStatus(PostType.POST, PostStatus.PUBLISHED, page)
-                .getContent()
-                .stream()
+                .getContent().
+                stream()
                 .map(this::extractPostMeta)
                 .collect(Collectors.toList());
     }
 
-    public List<Tag> getPostTags(Post post){
+    public List<Tag> getPostTags(Post post) {
         log.debug("Get tags of post {}", post.getId());
 
         List<Tag> tags = new ArrayList<>();
@@ -109,16 +107,14 @@ public class PostService {
         return archivePost;
     }
 
-    public Page<Post> getAllPublishedPostsByPage(int page, int pageSize){
+    public Page<Post> getAllPublishedPostsByPage(int page, int pageSize) {
         log.debug("Get posts by page " + page);
 
-        return postRepository.findAllByPostTypeAndPostStatus(
-                PostType.POST,
-                PostStatus.PUBLISHED,
+        return postRepository.findAllByPostTypeAndPostStatus(PostType.POST, PostStatus.PUBLISHED,
                 PageRequest.of(page, pageSize, Sort.Direction.DESC, "createdAt"));
     }
 
-    public Post createAboutPage(){
+    public Post createAboutPage() {
         log.debug("Create default about page");
         Post post = new Post();
         post.setTitle(Constants.ABOUT_PAGE_PERMALINK);
