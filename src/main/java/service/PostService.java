@@ -151,7 +151,7 @@ public class PostService {
         return names.toString();
     }
 
-    @Cacheable(cacheNames = "post", key = "#tagName", unless = "#result == null ")
+    @Cacheable(cacheNames = "postCache", key = "#tagName", unless = "#result == null")
     public Page<Post> findPostsByTag(String tagName, int page, int pageSize){
         return postRepository.findByTag(tagName,
                 PageRequest.of(page, pageSize, Sort.Direction.DESC, "createdat"));
