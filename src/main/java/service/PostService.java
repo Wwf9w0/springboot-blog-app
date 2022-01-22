@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -156,5 +157,18 @@ public class PostService {
                 PageRequest.of(page, pageSize, Sort.Direction.DESC, "createdat"));
     }
 
+    public List<Object[]> countPostsByTags(){
+        log.debug("Count posts group tags.");
+        return postRepository.countPostByTags(PostStatus.PUBLISHED);
+    }
+
+    @Async
+    public void incrementViews(Long postId){
+        synchronized (this){
+            Post post = postRepository.findById(postId).orElse(null);
+            post.setViews(post.getViews() + 1);
+            postRepository.save(post);
+        }
+    }
 
 }
