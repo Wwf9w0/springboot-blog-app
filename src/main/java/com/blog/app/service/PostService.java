@@ -38,7 +38,7 @@ public class PostService {
         log.debug("Get Post" + postId);
 
         Optional<Post> post = postRepository.findById(postId);
-        if (!Objects.nonNull(post)) {
+        if (Objects.isNull(post)) {
             throw new UserNotFoundException();
         }
         return post;
@@ -48,14 +48,14 @@ public class PostService {
         log.debug("Get post with permalink " + permaLink);
 
         Optional<Post> post = postRepository.findByPermaLinkAndPosStatus(permaLink, PostStatus.PUBLISHED);
-        if (!Objects.nonNull(post)) {
+        if (Objects.isNull(post)) {
             try {
                 post = postRepository.findById(Long.valueOf(permaLink));
             } catch (NumberFormatException e) {
                 post = null;
             }
         }
-        if (!Objects.nonNull(post)) {
+        if (Objects.isNull(post)) {
             throw new UserNotFoundException();
         }
         return post;
@@ -141,7 +141,7 @@ public class PostService {
     }
 
     public String getTagNames(Set<Tag> tags){
-        if (!Objects.nonNull(tags) || tags.isEmpty()){
+        if (Objects.isNull(tags) || tags.isEmpty()){
             return "";
         }
         StringBuilder names = new StringBuilder();

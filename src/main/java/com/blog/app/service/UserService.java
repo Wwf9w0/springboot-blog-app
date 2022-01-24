@@ -35,7 +35,7 @@ public class UserService {
 
     public User getSuperUser() {
         User user = userRepository.findByEmail(EnviromentConstants.DEFAULT_ADMIN_EMAIL);
-        if (!Objects.nonNull(user)) {
+        if (Objects.isNull(user)) {
             user = createUser(new User(EnviromentConstants.DEFAULT_ADMIN_EMAIL, EnviromentConstants.DEFAULT_ADMIN_PASSWORD, User.ROLE_ADMIN));
         }
         return user;
@@ -43,7 +43,7 @@ public class UserService {
 
     public UserDetails loadUserByUserName(String userName) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(userName);
-        if (!Objects.nonNull(user)) {
+        if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("User Not Found!");
         }
         return createSpringUser(user);
@@ -69,7 +69,7 @@ public class UserService {
 
     public User currentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!Objects.nonNull(auth) || auth instanceof AnonymousAuthenticationToken) {
+        if (Objects.isNull(auth) || auth instanceof AnonymousAuthenticationToken) {
             return null;
         }
         String email = ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername();
@@ -77,7 +77,7 @@ public class UserService {
     }
 
     public boolean changePassword(User user, String password, String newPassword) {
-        if (!Objects.nonNull(password) || !Objects.nonNull(newPassword) || password.isEmpty()
+        if (Objects.isNull(password) || Objects.isNull(newPassword) || password.isEmpty()
                 || newPassword.isEmpty()) {
             return false;
         }

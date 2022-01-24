@@ -24,7 +24,7 @@ public class SettingsService {
         Setting setting = settingRepository.findByKey(key);
         Serializable value = null;
         try{
-            value = !Objects.nonNull(setting) ? null : setting.getValue();
+            value = Objects.isNull(setting) ? null : setting.getValue();
         }catch (Exception ex){
             log.info("Connot deserialize setting value with key = {} {}", key ,ex);
         }
@@ -36,7 +36,7 @@ public class SettingsService {
     @Cacheable(value = "settingCache", key = "#key", unless = "#result == null ")
     public Serializable get(String key, Serializable defaultValue){
         Serializable value = get(key);
-        return !Objects.nonNull(value) ? defaultValue : value;
+        return Objects.isNull(value) ? defaultValue : value;
     }
 
     @CacheEvict(value = "settingsCache", key = "#key")
@@ -44,7 +44,7 @@ public class SettingsService {
         log.info("Update setting {} to database value {}", key, value);
 
         Setting setting = settingRepository.findByKey(key);
-        if (!Objects.nonNull(setting)){
+        if (Objects.isNull(setting)){
             setting = new Setting();
             setting.setKey(key);
         }
