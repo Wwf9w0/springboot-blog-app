@@ -36,7 +36,8 @@ public class UserService {
     public User getSuperUser() {
         User user = userRepository.findByEmail(EnviromentConstants.DEFAULT_ADMIN_EMAIL);
         if (Objects.isNull(user)) {
-            user = createUser(new User(EnviromentConstants.DEFAULT_ADMIN_EMAIL, EnviromentConstants.DEFAULT_ADMIN_PASSWORD, User.ROLE_ADMIN));
+            user = createUser(new User(EnviromentConstants.DEFAULT_ADMIN_EMAIL,
+                    EnviromentConstants.DEFAULT_ADMIN_PASSWORD, User.ROLE_ADMIN));
         }
         return user;
     }
