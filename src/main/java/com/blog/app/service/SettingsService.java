@@ -26,7 +26,7 @@ public class SettingsService {
         try{
             value = Objects.isNull(setting) ? null : setting.getValue();
         }catch (Exception ex){
-            log.info("Connot deserialize setting value with key = {} {}", key ,ex);
+            log.info("Connot deserialize setting value with key = {} ", key ,ex);
         }
 
         log.info("Get setting {} from database value {}", key, value);
@@ -52,7 +52,7 @@ public class SettingsService {
             setting.setValue(value);
             settingRepository.save(setting);
         }catch (Exception ex){
-            log.info("Connot save setting value with type: {} key = {}-{}", value.getClass(), key, ex);
+            log.info("Connot save setting value with type: {} key = {}", value.getClass(), key, ex);
         }
     }
 }
