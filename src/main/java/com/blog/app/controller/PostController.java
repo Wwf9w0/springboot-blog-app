@@ -1,8 +1,10 @@
 package com.blog.app.controller;
 
+import com.blog.app.advice.exception.PostNotFoundException;
 import com.blog.app.model.Post;
 import com.blog.app.model.enums.PostType;
 import com.blog.app.service.PostService;
+import javafx.geometry.Pos;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,14 +33,30 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
-    public ResponseEntity<Post> show(@PathVariable String permaLink){
-        return
+    @GetMapping("/posts/{permaLink}")
+    public ResponseEntity<Optional<Post>> show(@PathVariable String permaLink){
+        return showPost(permaLink, PostType.PAGE);
     }
 
-    public ResponseEntity<Post> showPost(String permaLink, PostType postType){
-        Post post;
+
+    private ResponseEntity<Optional<Post>> showPost(String permaLink, PostType postType){
+        Optional<Post> post;
         try {
 
-        }catch (ChangeSetPersister.NotFoundException)
+           post = postService.getPublishedPostByPermaLink(permaLink);
+
+        }catch (PostNotFoundException ex){
+            if (permaLink.matches("\\d+") && postType.equals(PostType.POST)){
+                post = postService.getPost(Long.valueOf(permaLink));
+            }else{
+                throw  new PostNotFoundException();
+            }
+
+        }
+        if (!post.get().getPostType().equals(postType)){
+            throw new PostNotFoundException();
+        }
+        postService.incrementViews(post.get().getId());
+        return ResponseEntity.ok(post);
     }
 }

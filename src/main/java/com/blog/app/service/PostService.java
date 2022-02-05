@@ -44,7 +44,7 @@ public class PostService {
         return post;
     }
 
-    public Optional<Post> getPublishedPostByPermaLing(String permaLink) {
+    public Optional<Post> getPublishedPostByPermaLink(String permaLink) {
         log.debug("Get post with permalink " + permaLink);
 
         Optional<Post> post = postRepository.findByPermaLinkAndPosStatus(permaLink, PostStatus.PUBLISHED);
