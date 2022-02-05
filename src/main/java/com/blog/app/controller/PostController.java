@@ -1,10 +1,13 @@
 package com.blog.app.controller;
 
 import com.blog.app.model.Post;
+import com.blog.app.model.enums.PostType;
 import com.blog.app.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -28,7 +31,17 @@ public class PostController {
                     }
                     posts.get(post.getCreatAt().getYear()).add(post);
                 });
-
         return ResponseEntity.ok(posts);
+    }
+
+    public ResponseEntity<Post> show(@PathVariable String permaLink){
+        return
+    }
+
+    public ResponseEntity<Post> showPost(String permaLink, PostType postType){
+        Post post;
+        try {
+
+        }catch (ChangeSetPersister.NotFoundException)
     }
 }
