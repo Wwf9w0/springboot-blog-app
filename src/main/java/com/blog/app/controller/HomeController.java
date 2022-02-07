@@ -22,5 +22,4 @@ public class HomeController {
         Page<Post> posts = postService.getAllPublishedPostsByPage(page, appSetting.getPageSize());
         return ResponseEntity.ok(posts);
     }
-
 }
