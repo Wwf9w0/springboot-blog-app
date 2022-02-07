@@ -9,7 +9,7 @@ import java.security.Principal;
 @RestController
 public class UserController {
 
-    @RequestMapping("login")
+    @RequestMapping("/login")
     public ResponseEntity<Principal> signIn(Principal principal){
         return ResponseEntity.ok(principal);
     }
