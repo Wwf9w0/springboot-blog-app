@@ -1,6 +1,7 @@
 package com.blog.app.admin;
 
 import com.blog.app.model.Post;
+import com.blog.app.model.User;
 import com.blog.app.repository.PostRepository;
 import com.blog.app.service.PostService;
 import com.blog.app.service.UserService;
