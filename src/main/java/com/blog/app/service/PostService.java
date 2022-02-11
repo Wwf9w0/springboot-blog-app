@@ -157,6 +157,11 @@ public class PostService {
                 PageRequest.of(page, pageSize, Sort.Direction.DESC, "createdat"));
     }
 
+    @Cacheable(cacheNames = "postCacheByUser", key = "#userName", unless = "#result == null ")
+    public Page<Post> findPostsByUserName(String userName){
+        return postRepository.findByUserName(userName);
+    }
+
     public List<Object[]> countPostsByTags(){
         log.debug("Count posts group tags.");
         return postRepository.countPostByTags(PostStatus.PUBLISHED);

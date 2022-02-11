@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
+    Page<Post> findByUserName(String userName);
     Optional<Post> findByPermaLinkAndPosStatus(String permaLink, PostStatus postStatus);
     Page<Post> findAllByPostType(PostType postType, Pageable pageable);
     Page<Post> findAllByPostTypeAndPostStatus(PostType postType, PostStatus postStatus, Pageable page);
