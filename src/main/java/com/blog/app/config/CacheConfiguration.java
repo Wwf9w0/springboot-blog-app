@@ -8,6 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 public class CacheConfiguration {
+
     @Bean
     public EhCacheManagerFactoryBean ehCacheManagerFactory(){
         EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean();

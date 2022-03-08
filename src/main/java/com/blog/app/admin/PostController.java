@@ -20,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin/posts")
 public class PostController {
+
     private final PostService postService;
     private final PostRepository postRepository;
     private final UserService userService;

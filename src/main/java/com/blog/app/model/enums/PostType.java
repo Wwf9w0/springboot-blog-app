@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum PostType {
+
     PAGE("Page"), POST("Post");
 
     private String name;

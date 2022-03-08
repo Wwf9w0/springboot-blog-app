@@ -25,6 +25,7 @@ import java.util.Objects;
 @Slf4j
 @Transactional
 public class UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 

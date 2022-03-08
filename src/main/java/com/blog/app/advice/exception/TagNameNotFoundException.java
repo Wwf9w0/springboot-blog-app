@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class TagNameNotFoundException extends RuntimeException{
+
     private final int  code;
 
     public TagNameNotFoundException(){

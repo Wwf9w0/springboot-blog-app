@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum PostStatus {
+
     DRAFT("Draft"), PUBLISHED("Published");
 
     private String name;

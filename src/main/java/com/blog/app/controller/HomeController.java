@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/home")
 public class HomeController {
+
     private final PostService postService;
     private final AppSetting appSetting;
 

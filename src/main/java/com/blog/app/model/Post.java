@@ -17,6 +17,7 @@ import java.util.Set;
 @Table(name = "posts")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "postCache")
 public class Post extends BasedEntity {
+
     private static final SimpleDateFormat SLUG_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
 
 
